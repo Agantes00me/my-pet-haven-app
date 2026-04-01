@@ -1,25 +1,22 @@
-name: "FORCE_SYNC"
+name: Nightly Shopify Sync
 on:
   push:
     branches: [ main ]
-  push:
-    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
   sync:
-    runs-on:
-  push:
-    branches: [ main ] ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version:
-  push:
-    branches: [ main ] '20'
+          node-version: '20'
       - run: npm install
-      - run: node sync-products.js
+      - name: Run Product Sync
+        run: node sync-products.js
         env:
           SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
           SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
