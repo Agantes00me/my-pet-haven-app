@@ -1,0 +1,70 @@
+'use client'
+
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { User, Mail, Shield, HandHelping, ArrowRight, UserPlus } from 'lucide-react'
+
+import Link from 'next/link'
+
+export default function LoginPage() {
+  const [isLogin, setIsLogin] = useState(true)
+
+  return (
+    <div className="min-h-screen bg-theme flex items-center justify-center py-20 px-4">
+      <div className="max-w-md w-full animate-in fade-in zoom-in-95 duration-700">
+        <div className="bg-white rounded-[3rem] p-8 sm:p-12 shadow-2xl border border-border/40 text-center">
+            
+            <div className="p-4 bg-primary/10 rounded-full w-20 h-20 mx-auto mb-8 flex items-center justify-center">
+               <User className="w-10 h-10 text-primary" />
+            </div>
+
+            <h1 className="text-4xl font-black text-foreground mb-4 italic tracking-tighter uppercase">{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
+            <p className="text-foreground/40 font-medium mb-12 italic">Join the Haven for personalized pet experiences.</p>
+
+            <form className="space-y-6 text-left">
+               {!isLogin && (
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground/40 ml-4">Full Name</label>
+                    <div className="relative">
+                       <User className="absolute left-4 top-4 w-4 h-4 text-foreground/20" />
+                       <input type="text" placeholder="John Doe" className="w-full bg-muted/30 border border-border rounded-full py-4 pl-12 pr-6 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm font-bold" />
+                    </div>
+                  </div>
+               )}
+               <div className="space-y-2">
+                 <label className="text-[10px] font-black uppercase tracking-widest text-foreground/40 ml-4">Email Address</label>
+                 <div className="relative">
+                    <Mail className="absolute left-4 top-4 w-4 h-4 text-foreground/20" />
+                    <input type="email" placeholder="hello@petparent.com" className="w-full bg-muted/30 border border-border rounded-full py-4 pl-12 pr-6 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm font-bold" />
+                 </div>
+               </div>
+
+               <div className="space-y-2">
+                 <label className="text-[10px] font-black uppercase tracking-widest text-foreground/40 ml-4">Password</label>
+                 <div className="relative">
+                    <Shield className="absolute left-4 top-4 w-4 h-4 text-foreground/20" />
+                    <input type="password" placeholder="••••••••" className="w-full bg-muted/30 border border-border rounded-full py-4 pl-12 pr-6 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm font-bold" />
+                 </div>
+               </div>
+
+
+               <button type="submit" className="w-full py-5 bg-primary text-white font-black rounded-full shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 text-lg mt-8 uppercase tracking-tighter">
+                  {isLogin ? 'Enter The Haven' : 'Create My Profile'} <ArrowRight className="w-5 h-5" />
+               </button>
+            </form>
+
+            <div className="mt-12 pt-8 border-t border-border flex flex-col gap-4">
+               <button 
+                 onClick={() => setIsLogin(!isLogin)}
+                 className="text-primary font-black flex items-center justify-center gap-2 group hover:gap-3 transition-all"
+               >
+                 {isLogin ? "Need a profile?" : "Already have a profile?"} {isLogin ? <UserPlus className="w-5 h-5" /> : <Shield className="w-5 h-5" />}
+               </button>
+
+               <Link href="/faq" className="text-foreground/40 font-bold text-xs hover:text-primary transition-colors">Need help logging in?</Link>
+            </div>
+        </div>
+      </div>
+    </div>
+  )
+}
