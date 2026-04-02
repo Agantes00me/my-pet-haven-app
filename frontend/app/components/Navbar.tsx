@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { PawPrint, ShoppingCart, User, Search, Truck } from 'lucide-react'
+import { ShoppingCart, User, Menu, Search, Truck, PawPrint } from 'lucide-react'
+import { categoriesData } from '../../lib/categories'
 import { useCart } from '../../lib/store'
 import CartDrawer from './CartDrawer'
 
@@ -45,10 +46,10 @@ export default function Navbar() {
             </div>
 
             {/* Sub-Nav Categories (Desktop) */}
-            <div className="hidden lg:flex items-center gap-6 mx-8">
-              {['Adventure', 'Anxiety', 'Eco-Friendly', 'Grooming', 'Smart Tech', 'Toys'].map((cat) => (
-                <Link key={cat} href="/" className="text-[10px] font-black uppercase tracking-widest text-foreground/40 hover:text-primary transition-all">
-                  {cat}
+            <div className="hidden lg:flex items-center gap-12 font-black uppercase tracking-widest text-[10px]">
+              {Object.entries(categoriesData).map(([slug, cat]) => (
+                <Link key={slug} href={`/category/${slug}`} className="text-foreground/40 hover:text-primary transition-colors italic">
+                  {cat.name}
                 </Link>
               ))}
             </div>

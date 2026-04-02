@@ -57,12 +57,7 @@ export default function Footer() {
           <div className="col-span-1">
              <h3 className="font-black uppercase tracking-widest text-xs text-foreground/30 mb-8">Need Assistance?</h3>
              <div className="space-y-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary/5 rounded-full text-primary">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <p className="text-sm font-bold text-foreground/70">[Support Email Address]</p>
-                </div>
+
                 <Link href="/contact" className="inline-block mt-4 text-primary font-black underline hover:text-primary/80 transition-colors">
                   Contact Support Team
                 </Link>

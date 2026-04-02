@@ -1,5 +1,6 @@
 import { supabase } from '../lib/supabase'
 import ProductCard from './components/ProductCard'
+import CategoryGrid from './components/CategoryGrid'
 import { Sparkles, ArrowRight } from 'lucide-react'
 
 // Set revalidation time (e.g., 60 seconds)
@@ -54,6 +55,9 @@ export default async function Home() {
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
       </section>
+
+      {/* Category Section */}
+      <CategoryGrid />
 
       {/* Product Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">

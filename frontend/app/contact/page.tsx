@@ -16,15 +16,7 @@ export default function Contact() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
         {/* Contact Info */}
         <div className="lg:col-span-1 space-y-8">
-          <div className="bg-white p-8 rounded-[2rem] shadow-xl shadow-primary/5 hover:shadow-primary/10 transition-all border border-border/40 group">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 bg-primary/10 rounded-2xl text-primary group-hover:scale-110 transition-transform">
-                <Mail className="w-6 h-6" />
-              </div>
-              <h3 className="font-black uppercase tracking-widest text-xs text-foreground/40">Email Us</h3>
-            </div>
-            <p className="text-lg font-bold text-foreground">support@pethaven.com</p>
-          </div>
+
 
           <div className="bg-white p-8 rounded-[2rem] shadow-xl shadow-primary/5 hover:shadow-primary/10 transition-all border border-border/40 group">
             <div className="flex items-center gap-4 mb-6">

@@ -80,7 +80,7 @@ export default function TermsOfService() {
           <p className="font-medium text-foreground italic mb-4 text-lg">Questions about the Terms of Service should be sent to us at:</p>
           <div className="flex flex-col gap-2 text-primary font-bold">
             <p>The Pet Haven</p>
-            <p>Email: support@pethaven.com</p>
+
             <p>Address: Gauteng, South Africa</p>
             <p>Phone: Available upon request</p>
           </div>
