@@ -23,7 +23,7 @@ export default function Contact() {
               </div>
               <h3 className="font-black uppercase tracking-widest text-xs text-foreground/40">Email Us</h3>
             </div>
-            <p className="text-lg font-bold text-foreground">chris.cmulder@gmail.com</p>
+            <p className="text-lg font-bold text-foreground">support@pethaven.com</p>
           </div>
 
           <div className="bg-white p-8 rounded-[2rem] shadow-xl shadow-primary/5 hover:shadow-primary/10 transition-all border border-border/40 group">
@@ -33,7 +33,7 @@ export default function Contact() {
               </div>
               <h3 className="font-black uppercase tracking-widest text-xs text-foreground/40">Our Haven</h3>
             </div>
-            <p className="text-lg font-bold text-foreground leading-snug">Potchefstroom, North West,<br/>South Africa, 2531</p>
+            <p className="text-lg font-bold text-foreground leading-snug">Gauteng,<br/>South Africa</p>
           </div>
 
         </div>

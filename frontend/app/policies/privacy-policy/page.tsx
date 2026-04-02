@@ -46,8 +46,8 @@ export default function PrivacyPolicy() {
         <section className="bg-primary/5 p-8 rounded-3xl border border-primary/10 mt-20">
           <h2 className="text-xl font-bold text-foreground mb-4 tracking-tighter uppercase italic text-center">Contact Information</h2>
           <div className="flex flex-col gap-2 items-center text-primary font-bold">
-            <p>chris.cmulder@gmail.com</p>
-            <p>Vyfhoek, Potchefstroom, NW, 2531, ZA</p>
+            <p>support@pethaven.com</p>
+            <p>Gauteng, ZA</p>
           </div>
         </section>
       </div>

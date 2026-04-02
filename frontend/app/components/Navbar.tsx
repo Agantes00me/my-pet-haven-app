@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { PawPrint, ShoppingCart, User, Search } from 'lucide-react'
+import { PawPrint, ShoppingCart, User, Search, Truck } from 'lucide-react'
 import { useCart } from '../../lib/store'
 import CartDrawer from './CartDrawer'
 
@@ -55,6 +55,11 @@ export default function Navbar() {
 
             {/* Icons */}
             <div className="flex items-center gap-2 sm:gap-4 text-foreground/70">
+              <Link href="/tracking" className="flex items-center gap-2 group hover:text-primary transition-colors px-3 py-1.5 bg-gray-100 rounded-full border border-gray-200">
+                <Truck className="w-4 h-4 text-gray-500" />
+                <span className="text-[10px] font-black uppercase tracking-widest italic text-gray-500 group-hover:text-primary">Track Order</span>
+              </Link>
+
               {/* Market Selector */}
               <div className="hidden lg:flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full border border-border/40 hover:bg-muted transition-all cursor-pointer group relative">
                 <span className="text-xs font-black uppercase tracking-tight flex items-center gap-2 italic">

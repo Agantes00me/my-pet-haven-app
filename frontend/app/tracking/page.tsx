@@ -17,7 +17,7 @@ export default function TrackingPage() {
       setTracking({
         id: orderNumber,
         status: 'shipped',
-        lastUpdate: 'Package in transit - Potchefstroom Sorting Center',
+        lastUpdate: 'Package in transit - Local Distribution Center',
         steps: [
           { status: 'Confirmed', date: 'Oct 12', done: true },
           { status: 'Processed', date: 'Oct 13', done: true },

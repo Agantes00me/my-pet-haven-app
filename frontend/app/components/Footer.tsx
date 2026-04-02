@@ -48,6 +48,7 @@ export default function Footer() {
               <li><Link href="/who-we-are" className="text-foreground/70 hover:text-primary font-bold transition-colors">Who We Are</Link></li>
               <li><Link href="/policies/privacy-policy" className="text-foreground/70 hover:text-primary font-bold transition-colors">Privacy Policy</Link></li>
               <li><Link href="/policies/terms-of-service" className="text-foreground/70 hover:text-primary font-bold transition-colors">Terms of Service</Link></li>
+              <li><Link href="/tracking" className="text-foreground/70 hover:text-primary font-bold transition-colors underline decoration-primary/30 underline-offset-4 decoration-2">Track Order</Link></li>
               <li><Link href="/faq" className="text-foreground/70 hover:text-primary font-bold transition-colors">FAQ</Link></li>
             </ul>
           </div>
@@ -60,7 +61,7 @@ export default function Footer() {
                   <div className="p-2 bg-primary/5 rounded-full text-primary">
                     <Mail className="w-4 h-4" />
                   </div>
-                  <p className="text-sm font-bold text-foreground/70">chris.cmulder@gmail.com</p>
+                  <p className="text-sm font-bold text-foreground/70">[Support Email Address]</p>
                 </div>
                 <Link href="/contact" className="inline-block mt-4 text-primary font-black underline hover:text-primary/80 transition-colors">
                   Contact Support Team
