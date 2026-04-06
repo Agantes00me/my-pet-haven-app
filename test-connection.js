@@ -1,28 +1,35 @@
 require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
+const axios = require('axios');
 
-// We use process.env to grab the values from your .env file
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const shop = process.env.SHOPIFY_STORE_URL;
+const token = process.env.SHOPIFY_ACCESS_TOKEN;
 
-// This checks if the keys actually loaded before trying to connect
-if (!supabaseUrl || !supabaseKey) {
-    console.error("❌ ERROR: Keys not found in .env file. Check your spelling!");
-    process.exit(1);
-}
+async function testShopify() {
+    console.log(`🚀 Testing connection to: ${shop}...`);
+    
+    try {
+        const response = await axios({
+            url: `https://${shop}/admin/api/2024-01/shop.json`,
+            method: 'get',
+            headers: {
+                'X-Shopify-Access-Token': token,
+                'Content-Type': 'application/json',
+            },
+        });
 
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-async function checkProducts() {
-    console.log('🔐 Securely connecting to Supabase via .env...');
-    const { data, error } = await supabase.from('shopify_products').select('*');
-
-    if (error) {
-        console.error('❌ Connection failed:', error.message);
-    } else {
-        console.log(`✅ SUCCESS! Found ${data.length} products.`);
-        console.table(data);
+        console.log('✅ CONNECTION SUCCESS!');
+        console.log(`🏠 Store Name: ${response.data.shop.name}`);
+        console.log(`📧 Contact Email: ${response.data.shop.email}`);
+        console.log('--- Heavy Lifting Sync is ONLINE ---');
+        
+    } catch (error) {
+        console.log('❌ CONNECTION FAILED');
+        if (error.response) {
+            console.log('Error:', error.response.data.errors || error.response.statusText);
+        } else {
+            console.log('Error Message:', error.message);
+        }
     }
 }
 
-checkProducts();
+testShopify();

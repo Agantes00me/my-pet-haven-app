@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 const shop = 'gcrvj7-ea.myshopify.com';
-const client_id = '667b1bef5493e661bae888b3d8bdec75';
-const client_secret = 'process.env.SHOPIFY_APP_SECRET';
-const code = '38f6ce58f80362a05cb395a849aa06db';
+const client_id = '0ccaf38da15babc8587a221704f5b678';
+const client_secret ='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';
+const code = '7407d7b80b81dbe47ad85aeb20bcc484';
 
 async function exchange() {
     console.log('🔄 Exchanging code for permanent access token...');
