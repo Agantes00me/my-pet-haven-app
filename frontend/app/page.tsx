@@ -1,7 +1,8 @@
 import { supabase } from '../lib/supabase'
 import ProductCard from './components/ProductCard'
-import CategoryGrid from './components/CategoryGrid'
+import CategorySlider from './components/CategorySlider'
 import { Sparkles, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 // Set revalidation time (e.g., 60 seconds)
 export const revalidate = 60
@@ -27,40 +28,36 @@ export default async function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16 pb-24 sm:pt-24 sm:pb-32 bg-primary/5">
+      <section className="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28 bg-primary/5 border-b border-border/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <Sparkles className="w-4 h-4" />
-              <span>Celebrating 5 years of happy paws</span>
-            </div>
-            <h1 className="text-4xl sm:text-6xl font-black text-foreground tracking-tight mb-6 leading-[1.1]">
-              Pawsome products for your <span className="text-primary italic">best friend</span>
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+            <h1 className="text-5xl sm:text-7xl font-black text-foreground tracking-tighter mb-8 leading-[1] uppercase italic">
+              Pawsome products for your <br /> <span className="text-primary italic">best friend</span>
             </h1>
-            <p className="text-lg text-foreground/60 mb-10 leading-relaxed font-medium">
+            <p className="text-xl text-foreground/60 mb-12 leading-relaxed font-medium italic max-w-2xl">
               Discover a curated collection of premium accessories, organic treats, and durable toys designed exclusively for your pets' happiness.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <button className="px-8 py-4 bg-primary text-white font-bold rounded-2xl shadow-lg shadow-primary/25 hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
-                Shop Collection <ArrowRight className="w-5 h-5" />
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              <button className="px-10 py-5 bg-primary text-white font-black rounded-3xl shadow-xl shadow-primary/25 hover:shadow-2xl hover:scale-105 transition-all flex items-center gap-3 text-lg uppercase tracking-tighter">
+                Shop Collection <ArrowRight className="w-6 h-6" />
               </button>
-              <button className="px-8 py-4 bg-white text-foreground font-bold rounded-2xl border border-border hover:bg-muted transition-all">
+              <Link href="/who-we-are" className="px-10 py-5 bg-white text-foreground font-black rounded-3xl border border-border hover:bg-muted transition-all text-lg uppercase tracking-tighter italic">
                 Our Story
-              </button>
+              </Link>
             </div>
           </div>
         </div>
         
         {/* Abstract Background Shapes */}
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
       </section>
 
-      {/* Category Section */}
-      <CategoryGrid />
+      {/* Category Slider */}
+      <CategorySlider />
 
       {/* Product Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 pb-40">
         <div className="flex items-end justify-between mb-12">
           <div>
             <h2 className="text-3xl font-black text-foreground mb-2">New Arrivals</h2>

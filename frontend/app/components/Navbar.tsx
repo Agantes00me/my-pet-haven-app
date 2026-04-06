@@ -46,9 +46,9 @@ export default function Navbar() {
             </div>
 
             {/* Sub-Nav Categories (Desktop) */}
-            <div className="hidden lg:flex items-center gap-12 font-black uppercase tracking-widest text-[10px]">
+            <div className="hidden lg:flex items-center gap-16 font-black uppercase tracking-widest text-[10px] px-8 border-x border-border/40 mx-4">
               {Object.entries(categoriesData).map(([slug, cat]) => (
-                <Link key={slug} href={`/category/${slug}`} className="text-foreground/40 hover:text-primary transition-colors italic">
+                <Link key={slug} href={`/category/${slug}`} className="text-foreground/40 hover:text-primary transition-colors italic whitespace-nowrap">
                   {cat.name}
                 </Link>
               ))}

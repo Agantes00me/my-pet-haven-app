@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { User, Mail, Shield, HandHelping, ArrowRight, UserPlus } from 'lucide-react'
+import { User, Mail, Shield, ArrowRight, UserPlus } from 'lucide-react'
 import Link from 'next/link'
 import { supabase } from '../../lib/supabase'
 
@@ -82,27 +82,34 @@ export default function LoginPage() {
               <div className="relative flex justify-center text-xs uppercase"><span className="bg-white px-4 text-foreground/20 font-black tracking-widest">Or Continue With</span></div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="flex flex-col gap-4">
               <button 
                 onClick={() => handleSocialLogin('google')} 
                 disabled={loading}
-                className="flex items-center justify-center py-4 bg-muted/20 border border-border rounded-2xl hover:bg-muted transition-all group disabled:opacity-50"
+                className="flex items-center gap-4 py-4 px-8 bg-white border border-border rounded-full hover:bg-muted transition-all group disabled:opacity-50 shadow-sm"
               >
-                <span className="font-black text-xs text-foreground/60 transition-colors group-hover:text-primary">Google</span>
+                <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="Google" />
+                <span className="font-bold text-sm text-foreground/60 transition-colors group-hover:text-primary">Continue with Google</span>
               </button>
+
               <button 
                 onClick={() => handleSocialLogin('facebook')} 
                 disabled={loading}
-                className="flex items-center justify-center py-4 bg-muted/20 border border-border rounded-2xl hover:bg-muted transition-all group disabled:opacity-50"
+                className="flex items-center gap-4 py-4 px-8 bg-white border border-border rounded-full hover:bg-muted transition-all group disabled:opacity-50 shadow-sm"
               >
-                <span className="font-black text-xs text-foreground/60 transition-colors group-hover:text-primary">FB</span>
+                <div className="w-4 h-4 bg-[#1877F2] rounded-sm flex items-center justify-center font-black text-white text-[10px]">f</div>
+                <span className="font-bold text-sm text-foreground/60 transition-colors group-hover:text-primary">Continue with Facebook</span>
               </button>
+
               <button 
                 onClick={() => handleSocialLogin('apple')} 
                 disabled={loading}
-                className="flex items-center justify-center py-4 bg-muted/20 border border-border rounded-2xl hover:bg-muted transition-all group disabled:opacity-50"
+                className="flex items-center gap-4 py-4 px-8 bg-white border border-border rounded-full hover:bg-muted transition-all group disabled:opacity-50 shadow-sm"
               >
-                <span className="font-black text-xs text-foreground/60 transition-colors group-hover:text-primary">Apple</span>
+                <div className="w-4 h-4 bg-black rounded-full flex items-center justify-center">
+                   <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <span className="font-bold text-sm text-foreground/60 transition-colors group-hover:text-primary">Continue with Apple</span>
               </button>
             </div>
 

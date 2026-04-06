@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { PawPrint, Mail, Heart, Smile } from 'lucide-react'
+import { categoriesData } from '../../lib/categories'
 
 export default function Footer() {
   return (
@@ -34,9 +35,9 @@ export default function Footer() {
           <div className="col-span-1">
             <h3 className="font-black uppercase tracking-widest text-xs text-foreground/30 mb-8">Shop Categories</h3>
             <ul className="space-y-4">
-              <li><Link href="/" className="text-foreground/70 hover:text-primary font-bold transition-colors">Adventure & Travel</Link></li>
-              <li><Link href="/" className="text-foreground/70 hover:text-primary font-bold transition-colors">Smart Pet Tech</Link></li>
-              <li><Link href="/" className="text-foreground/70 hover:text-primary font-bold transition-colors">Grooming & Wellness</Link></li>
+              {Object.entries(categoriesData).slice(0, 3).map(([slug, cat]) => (
+                <li key={slug}><Link href={`/category/${slug}`} className="text-foreground/70 hover:text-primary font-bold transition-colors">{cat.name}</Link></li>
+              ))}
               <li><Link href="/quiz" className="text-foreground/70 hover:text-primary font-bold transition-colors italic">Pet Personality Quiz</Link></li>
             </ul>
           </div>
@@ -45,11 +46,10 @@ export default function Footer() {
           <div className="col-span-1">
             <h3 className="font-black uppercase tracking-widest text-xs text-foreground/30 mb-8">Information</h3>
             <ul className="space-y-4">
-              <li><Link href="/who-we-are" className="text-foreground/70 hover:text-primary font-bold transition-colors">Who We Are</Link></li>
+              <li><Link href="/who-we-are" className="text-foreground/70 hover:text-primary font-bold transition-colors underline decoration-primary/30 underline-offset-4 decoration-2">Who We Are</Link></li>
               <li><Link href="/policies/privacy-policy" className="text-foreground/70 hover:text-primary font-bold transition-colors">Privacy Policy</Link></li>
               <li><Link href="/policies/terms-of-service" className="text-foreground/70 hover:text-primary font-bold transition-colors">Terms of Service</Link></li>
-              <li><Link href="/tracking" className="text-foreground/70 hover:text-primary font-bold transition-colors underline decoration-primary/30 underline-offset-4 decoration-2">Track Order</Link></li>
-              <li><Link href="/faq" className="text-foreground/70 hover:text-primary font-bold transition-colors">FAQ</Link></li>
+              <li><Link href="/tracking" className="text-foreground/70 hover:text-primary font-bold transition-colors">Track Order</Link></li>
             </ul>
           </div>
 
