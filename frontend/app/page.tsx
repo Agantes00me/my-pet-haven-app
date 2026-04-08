@@ -30,7 +30,7 @@ export default async function Page() {
                 <Sparkles className="w-4 h-4" /> Premium Pet Haven
               </div>
               <h1 className="text-5xl sm:text-7xl font-black text-foreground mb-8 tracking-tighter italic leading-[0.9] uppercase">
-                Creating <span className="text-primary italic">Joy</span> <br/> For Your <br/> Furry Friends.
+                Creating <span className="text-primary italic">Joy</span> <br /> For Your <br /> Furry Friends.
               </h1>
               <p className="text-lg text-foreground/50 font-medium mb-10 max-w-xl leading-relaxed italic mx-auto lg:mx-0 pr-4">
                 Discover curated collections designed for comfort, adventure, and happiness. Loved by pet parents worldwide.
@@ -45,13 +45,16 @@ export default async function Page() {
               </div>
             </div>
 
-            <div className="relative aspect-square lg:aspect-auto h-[350px] lg:h-[550px]">
+            {/* FIXED IMAGE CONTAINER */}
+            <div className="relative w-full h-[400px] lg:h-[600px]">
               <div className="absolute inset-0 bg-primary/10 rounded-[3rem] rotate-6 scale-95" />
-              <div className="absolute inset-0 bg-white rounded-[3rem] shadow-2xl overflow-hidden border-8 border-white p-1">
-                <Image 
-                  src="https://images.unsplash.com/photo-1541781751897-40089851675a?q=80&w=1200&auto=format&fit=crop" 
-                  alt="Happy Pet" 
-                  fill 
+              <div className="absolute inset-0 bg-white rounded-[3rem] shadow-2xl overflow-hidden border-8 border-white">
+                <Image
+                  src="https://images.unsplash.com/photo-1541781751897-40089851675a?q=80&w=1200&auto=format&fit=crop"
+                  alt="Happy Pet"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
                 />
               </div>
