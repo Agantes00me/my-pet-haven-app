@@ -4,7 +4,7 @@ const hubspot = require('@hubspot/api-client');
 const axios = require('axios');
 
 // 1. Initialize Clients (Using your exact .env keys)
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SECRET_KEY);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 const hubspotClient = new hubspot.Client({ accessToken: process.env.HUBSPOT_ACCESS_TOKEN });
 
 async function runMyPetHavenSync() {

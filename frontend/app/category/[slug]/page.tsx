@@ -6,7 +6,8 @@ import ProductCard from '../../components/ProductCard'
 import { ArrowLeft, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params
   const { slug } = params
   const category = categoriesData[slug as keyof typeof categoriesData]
 

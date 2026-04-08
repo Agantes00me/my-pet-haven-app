@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Fixes the "Invalid URL" error by ensuring redirects use absolute URLs
   const url = request.nextUrl.clone()
   if (url.pathname === '/old-path') {
