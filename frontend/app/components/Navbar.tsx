@@ -1,17 +1,21 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ShoppingCart, User, Menu, Search, Truck, PawPrint } from 'lucide-react'
+import { ShoppingCart, User, Menu, Search, Truck, PawPrint, X } from 'lucide-react'
 import { categoriesData } from '../../lib/categories'
 import { useCart } from '../../lib/store'
 import CartDrawer from './CartDrawer'
 
 export default function Navbar() {
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const [market, setMarket] = useState('ZA')
   const [itemsCount, setItemsCount] = useState(0)
   const { items } = useCart()
+  const router = useRouter()
 
   const markets = [
     { code: 'ZA', label: 'South Africa', icon: '🇿🇦' },
@@ -26,6 +30,15 @@ export default function Navbar() {
   useEffect(() => {
     setItemsCount(items.reduce((acc, i) => acc + i.quantity, 0))
   }, [items])
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
+      setIsSearchOpen(false)
+      setSearchQuery('')
+    }
+  }
 
   return (
     <>
@@ -46,8 +59,11 @@ export default function Navbar() {
             </div>
 
             {/* Sub-Nav Categories (Desktop) */}
-            <div className="hidden lg:flex items-center gap-16 font-black uppercase tracking-widest text-[10px] px-8 border-x border-border/40 mx-4">
-              {Object.entries(categoriesData).map(([slug, cat]) => (
+            <div className="hidden lg:flex items-center gap-12 font-black uppercase tracking-widest text-[10px] px-8 border-x border-border/40 mx-4">
+              <Link href="/who-we-are" className="text-primary hover:text-primary/70 transition-colors italic whitespace-nowrap decoration-2 underline underline-offset-4 decoration-primary/20">
+                Who We Are
+              </Link>
+              {Object.entries(categoriesData).slice(0, 4).map(([slug, cat]) => (
                 <Link key={slug} href={`/category/${slug}`} className="text-foreground/40 hover:text-primary transition-colors italic whitespace-nowrap">
                   {cat.name}
                 </Link>
@@ -55,10 +71,18 @@ export default function Navbar() {
             </div>
 
             {/* Icons */}
-            <div className="flex items-center gap-2 sm:gap-4 text-foreground/70">
-              <Link href="/tracking" className="flex items-center gap-2 group hover:text-primary transition-colors px-3 py-1.5 bg-gray-100 rounded-full border border-gray-200">
+            <div className="flex items-center gap-2 sm:gap-3 text-foreground/70">
+              {/* Search Toggle */}
+              <button 
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="p-2 hover:bg-muted rounded-full transition-colors"
+              >
+                <Search className="w-6 h-6" />
+              </button>
+
+              <Link href="/tracking" className="hidden sm:flex items-center gap-2 group hover:text-primary transition-colors px-3 py-1.5 bg-gray-100 rounded-full border border-gray-200">
                 <Truck className="w-4 h-4 text-gray-500" />
-                <span className="text-[10px] font-black uppercase tracking-widest italic text-gray-500 group-hover:text-primary">Track Order</span>
+                <span className="text-[10px] font-black uppercase tracking-widest italic text-gray-500 group-hover:text-primary">Track</span>
               </Link>
 
               {/* Market Selector */}
@@ -103,6 +127,25 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Global Search Overlay */}
+      <div className={`fixed inset-x-0 top-0 z-[60] bg-white/95 backdrop-blur-xl border-b border-border transition-all duration-500 ${isSearchOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+        <div className="max-w-7xl mx-auto px-4 h-24 flex items-center gap-4">
+          <Search className="w-6 h-6 text-primary" />
+          <form onSubmit={handleSearch} className="flex-1">
+            <input 
+              autoFocus={isSearchOpen}
+              type="text" 
+              placeholder="Search for toys, treats, or gear..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-transparent border-none focus:ring-0 text-xl font-black italic uppercase tracking-tighter placeholder:text-foreground/10"
+            />
+          </form>
+          <button onClick={() => setIsSearchOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors">
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+      </div>
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
