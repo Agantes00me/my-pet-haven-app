@@ -50,7 +50,7 @@ export default async function Page() {
               <div className="absolute inset-0 bg-primary/10 rounded-[3rem] rotate-6 scale-95" />
               <div className="absolute inset-0 bg-white rounded-[3rem] shadow-2xl overflow-hidden border-8 border-white">
                 <Image
-                  src="https://images.unsplash.com/photo-1541781751897-40089851675a?q=80&w=1200&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=1200&auto=format&fit=crop"
                   alt="Happy Pet"
                   fill
                   priority
