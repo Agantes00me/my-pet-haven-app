@@ -1,3 +1,0 @@
-{'token_type': 'bearer', 'refresh_token': 'eu1-7db9-89de-48f7-8e97-8c798fc8db99', 'access_token': 'CLGIndXUMxIPQlNQMl8kQEwrAgIACAkWGOvF00Yg-4OKKyjSzvgQMhRRleZEhFMyQfppExsCHpERndmFhjoTQlNQMl8kQEwrAgYACBkGcX4Ba0IUejhSU5znRVFwnsQ8Da5lFuSwx0VKA2V1MVIAWgBgAGj7g4orcAB4AA', 'hub_id': 148169451, 'scopes': ['oauth', 'crm.objects.contacts.read'
-    ], 'expires_in': 1800
-}
