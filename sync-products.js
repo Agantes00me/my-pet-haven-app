@@ -1,75 +1,58 @@
 require('dotenv').config();
+const Shopify = require('shopify-api-node');
 const { createClient } = require('@supabase/supabase-js');
-const hubspot = require('@hubspot/api-client');
-const axios = require('axios');
 
-// 1. Initialize Clients (Using your exact .env keys)
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-const hubspotClient = new hubspot.Client({ accessToken: process.env.HUBSPOT_ACCESS_TOKEN });
+// 1. Setup Shopify Connection
+const shopify = new Shopify({
+  shopName: process.env.SHOPIFY_SHOP_NAME || process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME,
+  accessToken: process.env.SHOPIFY_ACCESS_TOKEN || process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
+});
 
-async function runMyPetHavenSync() {
-    console.log('🐾 Starting My Pet Haven Phase 1 Deployment Sync...');
+// 2. Setup Supabase Connection (Flexible Naming)
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    try {
-        // --- STEP 1: SHOPIFY FETCH ---
-        const shopifyUrl = `https://${process.env.SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/2024-01/products.json`;
-        console.log(`📦 Fetching from: ${process.env.SHOPIFY_SHOP_NAME}`);
-        
-        const response = await axios.get(shopifyUrl, {
-            headers: { 'X-Shopify-Access-Token': process.env.SHOPIFY_ACCESS_TOKEN }
-        });
-
-        const products = response.data.products;
-        console.log(`✨ Found ${products.length} products. Syncing to local Supabase...`);
-
-        // --- STEP 2: SUPABASE UPSERT ---
-        for (const p of products) {
-            const { error } = await supabase
-                .from('shopify_products')
-                .upsert({
-                    id: p.id,
-                    title: p.title,
-                    handle: p.handle,
-                    status: p.status,
-                    updated_at_shopify: p.updated_at,
-                    raw_json: p  // Saves everything!
-                });
-
-            if (error) console.error(`❌ Supabase Error for ${p.title}:`, error.message);
-            else console.log(`✅ Saved to DB: ${p.title}`);
-        }
-
-        // --- STEP 3: HUBSPOT TEST ASSOCIATION ---
-        console.log('🤝 Creating HubSpot Test Deal with Association...');
-        
-        const testEmail = "agante_test@example.com";
-        const orderId = 12345;
-
-        // Create/Update Contact with Pet Name
-        const contact = await hubspotClient.crm.contacts.basicApi.create({
-            properties: { email: testEmail, pet_name: "Buddy" }
-        }).catch(err => err.body); // Catch if contact already exists
-
-        const contactId = contact.id || contact.message.match(/\d+/)[0];
-
-        // Create Deal and Associate
-        const deal = await hubspotClient.crm.deals.basicApi.create({
-            properties: {
-                dealname: `My Pet Haven Order #${orderId}`,
-                shopify_order_id: orderId.toString(),
-                amount: "100.00"
-            },
-            associations: [{
-                to: { id: contactId },
-                types: [{ associationCategory: "HUBSPOT_DEFINED", associationTypeId: 3 }]
-            }]
-        });
-
-        console.log(`🎉 Phase 1 Success! Deal Created: ${deal.id}`);
-
-    } catch (err) {
-        console.error("🛑 Sync Failed:", err.response?.data || err.message);
-    }
+if (!supabaseUrl || !supabaseKey) {
+  console.error("❌ ERROR: Missing Supabase Credentials in .env file.");
+  process.exit(1);
 }
 
-runMyPetHavenSync();
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function syncProducts() {
+  try {
+    const products = await shopify.product.list();
+    console.log(`🚀 Found ${products.length} products in Shopify. Starting sync...`);
+
+    for (const product of products) {
+      const price = product.variants && product.variants.length > 0 ? product.variants[0].price : 0;
+      const imageUrl = product.image ? product.image.src : (product.images && product.images.length > 0 ? product.images[0].src : null);
+
+      const { error } = await supabase
+        .from('shopify_products')
+        .upsert({
+          shopify_id: product.id.toString(),
+          handle: product.handle,
+          title: product.title,
+          description_html: product.body_html,
+          price: parseFloat(price), 
+          image_url: imageUrl,      
+          status: product.status,
+          updated_at: new Date().toISOString(),
+        }, {
+          onConflict: 'shopify_id'
+        });
+
+      if (error) {
+        console.error(`❌ Error syncing ${product.title}:`, error.message);
+      } else {
+        console.log(`✅ Synced: ${product.title} | $${price}`);
+      }
+    }
+    console.log("--- ✨ Sync Complete! Refresh your website now. ---");
+  } catch (err) {
+    console.error('❌ Sync failed:', err.message);
+  }
+}
+
+syncProducts();
