@@ -23,7 +23,8 @@ export default async function Page() {
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent blur-[100px] rounded-full animate-pulse delay-1000" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-10">
+        {/* Changed max-w-7xl to a wider container and removed centering for a modern left-weighted look */}
+        <div className="max-w-[1600px] mr-auto ml-0 px-4 sm:px-8 lg:px-16 relative z-10 w-full pt-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary font-black uppercase tracking-widest text-[10px] mb-8">
@@ -68,7 +69,8 @@ export default async function Page() {
 
       {/* Featured Products */}
       <section className="py-24 bg-[#FAFBFF]">
-        <div className="max-w-7xl mx-auto px-4">
+        {/* Widened container and removed auto-centering to align with left border */}
+        <div className="max-w-[1600px] mr-auto ml-0 px-4 sm:px-8 lg:px-16">
           <div className="flex justify-between items-end mb-12">
             <div>
               <h2 className="text-3xl sm:text-4xl font-black text-foreground mb-3 italic tracking-tighter uppercase">Our Top Picks</h2>
