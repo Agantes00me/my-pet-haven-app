@@ -23,8 +23,8 @@ export default async function Page() {
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent blur-[100px] rounded-full animate-pulse delay-1000" />
         </div>
 
-        {/* CONTAINER 1: Hero - Balanced with standard max-width but pushed left */}
-        <div className="max-w-7xl ml-0 mr-auto px-6 sm:px-12 lg:px-20 relative z-10 w-full pt-10">
+        {/* Back to standard centering but with good breathing room */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary font-black uppercase tracking-widest text-[10px] mb-8">
@@ -63,15 +63,13 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* CONTAINER 2: Categories Slider - Wrapped to force left alignment */}
-      <div className="max-w-7xl ml-0 mr-auto px-6 sm:px-12 lg:px-20 py-10">
-        <CategorySlider />
-      </div>
+      {/* Categories Slider - Let the component handle its own padding internally */}
+      <CategorySlider />
 
       {/* Featured Products */}
       <section className="py-24 bg-[#FAFBFF]">
-        {/* CONTAINER 3: Top Picks - Matched exact padding for the vertical line look */}
-        <div className="max-w-7xl ml-0 mr-auto px-6 sm:px-12 lg:px-20">
+        {/* Standard centered container for the products grid */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
               <h2 className="text-3xl sm:text-4xl font-black text-foreground mb-3 italic tracking-tighter uppercase">Our Top Picks</h2>
@@ -93,8 +91,8 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* Categories Grid */}
-      <div className="max-w-7xl ml-0 mr-auto px-6 sm:px-12 lg:px-20">
+      {/* Categories Grid - Centered to match the sections above */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         <CategoryGrid />
       </div>
     </div>
