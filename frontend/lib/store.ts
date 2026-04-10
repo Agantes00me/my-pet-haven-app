@@ -64,7 +64,7 @@ export const useCart = create<CartStore>()(
           .join(",");
 
         // Using your direct myshopify domain for the fastest handshake
-        return `https://gcrvj7-ea.myshopify.com/cart/${cartString}`;
+        return `https://mypethaven.site/cart/${cartString}`;
       },
     }),
     {
