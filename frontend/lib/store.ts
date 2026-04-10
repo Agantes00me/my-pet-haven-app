@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware'
 
 export interface CartItem {
   id: number
-  shopify_id: string // This MUST be the Shopify Variant ID
+  shopify_id: string // Likely coming in as "gid://shopify/ProductVariant/47..."
   title: string
   price: number
   image_url: string
@@ -17,7 +17,6 @@ interface CartStore {
   updateQuantity: (id: number, quantity: number) => void
   clearCart: () => void
   getTotal: () => number
-  // NEW: The "Handshake" function
   getCheckoutUrl: () => string
 }
 
@@ -51,17 +50,20 @@ export const useCart = create<CartStore>()(
       getTotal: () =>
         get().items.reduce((acc, i) => acc + i.price * i.quantity, 0),
 
-      // NEW: Generate the Shopify Permalink
+      // FIX: Strip the GID to prevent the 404
       getCheckoutUrl: () => {
         const items = get().items;
         if (items.length === 0) return "";
 
-        // Format: variant_id:quantity,variant_id:quantity
         const cartString = items
-          .map((item) => `${item.shopify_id}:${item.quantity}`)
+          .map((item) => {
+            // This regex grabs only the digits at the end of the ID string
+            const numericId = item.shopify_id.match(/\d+$/)?.[0] || item.shopify_id;
+            return `${numericId}:${item.quantity}`;
+          })
           .join(",");
 
-        // Redirects straight to your secure Shopify checkout
+        // Using your direct myshopify domain for the fastest handshake
         return `https://gcrvj7-ea.myshopify.com/cart/${cartString}`;
       },
     }),
