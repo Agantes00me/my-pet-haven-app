@@ -4,9 +4,10 @@ const { createClient } = require('@supabase/supabase-js');
 
 // 1. Setup Shopify Connection (Forced Version for 2026-04 Stability)
 const shopify = new Shopify({
-  shopName: process.env.SHOPIFY_SHOP_NAME || process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME,
-  accessToken: process.env.SHOPIFY_ACCESS_TOKEN || process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
-  apiVersion: '2026-04' // Aligned with your F3 screenshot
+  shopName: process.env.SHOPIFY_SHOP_NAME,
+  // We use the shpat_ token generated from the curl command
+  accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
+  apiVersion: '2026-04'
 });
 
 // 2. Setup Supabase Connection

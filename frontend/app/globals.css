@@ -1,3 +1,16 @@
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+  /* Kills horizontal scroll */
+  position: relative;
+}
+
+* {
+  box-sizing: border-box;
+  /* Prevents padding from pushing width */
+}
+
 @import "tailwindcss";
 
 /* THE "NUCLEAR" OVERRIDE FOR FIREFOX & THEME CONSISTENCY */
