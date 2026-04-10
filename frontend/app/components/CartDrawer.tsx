@@ -12,8 +12,19 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const { items, removeItem, updateQuantity, getTotal } = useCart()
+  // Added getCheckoutUrl from our updated store
+  const { items, removeItem, updateQuantity, getTotal, getCheckoutUrl } = useCart()
   const total = getTotal()
+
+  // Function to handle the redirect
+  const handleCheckout = () => {
+    const url = getCheckoutUrl()
+    if (url) {
+      window.location.href = url
+    } else {
+      alert("Your cart is empty!")
+    }
+  }
 
   return (
     <AnimatePresence>
@@ -27,7 +38,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             onClick={onClose}
             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[99]"
           />
-          
+
           {/* Drawer */}
           <motion.div
             initial={{ x: '100%' }}
@@ -88,15 +99,15 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
             <div className="p-6 border-t border-border bg-muted/5">
               <div className="mb-6 space-y-3">
-                 <label className="text-[10px] font-black uppercase tracking-widest text-foreground/30 ml-2 italic">Have a promo code?</label>
-                 <div className="flex gap-2">
-                    <input 
-                      type="text" 
-                      placeholder="e.g. PUPPYLOVE" 
-                      className="flex-1 bg-white border border-border/60 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 transition-all font-bold placeholder:font-normal placeholder:opacity-30" 
-                    />
-                    <button className="bg-muted px-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Apply</button>
-                 </div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-foreground/30 ml-2 italic">Have a promo code?</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="e.g. PUPPYLOVE"
+                    className="flex-1 bg-white border border-border/60 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 transition-all font-bold placeholder:font-normal placeholder:opacity-30"
+                  />
+                  <button className="bg-muted px-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Apply</button>
+                </div>
               </div>
 
               <div className="flex justify-between items-center mb-6">
@@ -105,11 +116,18 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </div>
 
               <div className="flex flex-col gap-3">
-                <button className="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all">
+                {/* Updated buttons to trigger handleCheckout */}
+                <button
+                  onClick={handleCheckout}
+                  className="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
+                >
                   Pay with PayFast
                 </button>
-                <button className="w-full py-4 bg-[#0070ba] text-white font-bold rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
-                   PayPal Checkout
+                <button
+                  onClick={handleCheckout}
+                  className="w-full py-4 bg-[#0070ba] text-white font-bold rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
+                >
+                  PayPal Checkout
                 </button>
               </div>
             </div>
