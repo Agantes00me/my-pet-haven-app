@@ -2,13 +2,14 @@ require('dotenv').config();
 const Shopify = require('shopify-api-node');
 const { createClient } = require('@supabase/supabase-js');
 
-// 1. Setup Shopify Connection
+// 1. Setup Shopify Connection (Forced Version for 2026-04 Stability)
 const shopify = new Shopify({
   shopName: process.env.SHOPIFY_SHOP_NAME || process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME,
   accessToken: process.env.SHOPIFY_ACCESS_TOKEN || process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
+  apiVersion: '2026-04' // Aligned with your F3 screenshot
 });
 
-// 2. Setup Supabase Connection (Flexible Naming)
+// 2. Setup Supabase Connection
 const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -35,8 +36,8 @@ async function syncProducts() {
           handle: product.handle,
           title: product.title,
           description_html: product.body_html,
-          price: parseFloat(price), 
-          image_url: imageUrl,      
+          price: parseFloat(price),
+          image_url: imageUrl,
           status: product.status,
           updated_at: new Date().toISOString(),
         }, {

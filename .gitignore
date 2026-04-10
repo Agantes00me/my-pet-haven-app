@@ -1,2 +1,7 @@
 .env
 node_modules/
+*.swp
+.DS_Store
+dist/
+build/
+.next/
