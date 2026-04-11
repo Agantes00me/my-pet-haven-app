@@ -1,8 +1,8 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Trash2, Minus, Plus, ShoppingBag } from 'lucide-react'
+import { X, Trash2, Minus, Plus, ShoppingBag, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import { useCart, CartItem } from '../../lib/store'
 
@@ -12,17 +12,27 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  // Added getCheckoutUrl from our updated store
   const { items, removeItem, updateQuantity, getTotal, getCheckoutUrl } = useCart()
+  const [isRedirecting, setIsRedirecting] = useState(false)
   const total = getTotal()
 
-  // Function to handle the redirect
-  const handleCheckout = () => {
-    const url = getCheckoutUrl()
-    if (url) {
-      window.location.href = url
-    } else {
-      alert("Your cart is empty!")
+  // UPDATED: Async handler for the professional API handshake
+  const handleCheckout = async () => {
+    if (items.length === 0) return;
+
+    setIsRedirecting(true)
+    try {
+      const url = await getCheckoutUrl()
+      if (url) {
+        window.location.href = url // Redirect to secure Shopify checkout
+      } else {
+        alert("Checkout is currently unavailable. Please try again.")
+      }
+    } catch (error) {
+      console.error("Checkout redirection failed:", error)
+      alert("An error occurred. Please try again.")
+    } finally {
+      setIsRedirecting(false)
     }
   }
 
@@ -30,7 +40,6 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -39,7 +48,6 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[99]"
           />
 
-          {/* Drawer */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -75,7 +83,6 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       <div className="flex-1">
                         <h3 className="text-sm font-bold leading-tight line-clamp-1 mb-1">{item.title}</h3>
                         <p className="text-primary font-black mb-2">${Number(item.price).toFixed(2)}</p>
-
                         <div className="flex items-center gap-3">
                           <div className="flex items-center border border-border rounded-lg bg-muted/30">
                             <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="p-1 hover:text-primary">
@@ -98,36 +105,18 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             </div>
 
             <div className="p-6 border-t border-border bg-muted/5">
-              <div className="mb-6 space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-foreground/30 ml-2 italic">Have a promo code?</label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="e.g. PUPPYLOVE"
-                    className="flex-1 bg-white border border-border/60 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 transition-all font-bold placeholder:font-normal placeholder:opacity-30"
-                  />
-                  <button className="bg-muted px-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Apply</button>
-                </div>
-              </div>
-
               <div className="flex justify-between items-center mb-6">
                 <span className="text-foreground/50 font-medium italic">Estimated Total</span>
                 <span className="text-2xl font-black text-primary">${total.toFixed(2)}</span>
               </div>
 
               <div className="flex flex-col gap-3">
-                {/* Updated buttons to trigger handleCheckout */}
                 <button
                   onClick={handleCheckout}
-                  className="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
+                  disabled={isRedirecting || items.length === 0}
+                  className="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  Pay with PayFast
-                </button>
-                <button
-                  onClick={handleCheckout}
-                  className="w-full py-4 bg-[#0070ba] text-white font-bold rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
-                >
-                  PayPal Checkout
+                  {isRedirecting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Secure Checkout"}
                 </button>
               </div>
             </div>

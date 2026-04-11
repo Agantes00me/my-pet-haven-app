@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware'
 
 export interface CartItem {
   id: number
-  shopify_id: string // Likely coming in as "gid://shopify/ProductVariant/47..."
+  shopify_id: string
   title: string
   price: number
   image_url: string
@@ -17,7 +17,8 @@ interface CartStore {
   updateQuantity: (id: number, quantity: number) => void
   clearCart: () => void
   getTotal: () => number
-  getCheckoutUrl: () => string
+  // UPDATED: Now returns a Promise for the API call
+  getCheckoutUrl: () => Promise<string>
 }
 
 export const useCart = create<CartStore>()(
@@ -27,7 +28,6 @@ export const useCart = create<CartStore>()(
       addItem: (item) => {
         const currentItems = get().items
         const existingItem = currentItems.find((i) => i.id === item.id)
-
         if (existingItem) {
           set({
             items: currentItems.map((i) =>
@@ -50,25 +50,45 @@ export const useCart = create<CartStore>()(
       getTotal: () =>
         get().items.reduce((acc, i) => acc + i.price * i.quantity, 0),
 
-      // FIX: Strip the GID to prevent the 404
-      getCheckoutUrl: () => {
+      // NEW: Professional cartCreate Handshake
+      getCheckoutUrl: async () => {
         const items = get().items;
         if (items.length === 0) return "";
 
-        const cartString = items
-          .map((item) => {
-            // This regex grabs only the digits at the end of the ID string
-            const numericId = item.shopify_id.match(/\d+$/)?.[0] || item.shopify_id;
-            return `${numericId}:${item.quantity}`;
-          })
-          .join(",");
+        const lines = items.map((item) => ({
+          quantity: item.quantity,
+          merchandiseId: item.shopify_id.includes("gid://")
+            ? item.shopify_id
+            : `gid://shopify/ProductVariant/${item.shopify_id}`
+        }));
 
-        // Using your direct myshopify domain for the fastest handshake
-        return `https://mypethaven.site/cart/${cartString}`;
+        const query = `
+          mutation cartCreate($input: CartInput) {
+            cartCreate(input: $input) {
+              cart { checkoutUrl }
+              userErrors { field message }
+            }
+          }
+        `;
+
+        try {
+          const response = await fetch(`https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/2026-04/graphql.json`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Shopify-Storefront-Access-Token': process.env.NEXT_PUBLIC_SHOPIFY_ACCESS_TOKEN!,
+            },
+            body: JSON.stringify({ query, variables: { input: { lines } } }),
+          });
+
+          const result = await response.json();
+          return result.data?.cartCreate?.cart?.checkoutUrl || "";
+        } catch (error) {
+          console.error("Cart API Error:", error);
+          return "";
+        }
       },
     }),
-    {
-      name: 'cart-storage',
-    }
+    { name: 'cart-storage' }
   )
 )
