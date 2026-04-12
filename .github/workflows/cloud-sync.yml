@@ -27,6 +27,7 @@ jobs:
           SHOPIFY_SHOP_NAME: 'gcrvj7-ea'
           SHOPIFY_STORE_URL: 'gcrvj7-ea.myshopify.com'
           SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
           SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
