@@ -11,10 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          
       - run: npm install
+      
       - name: Run Product Sync
         run: node sync-products.js
         env:
@@ -22,3 +27,12 @@ jobs:
           SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          # Adding [skip ci] prevents the automated update from triggering a new build
+          git commit -m "Automated Shopify Sync [skip ci]" || exit 0
+          git push
