@@ -24,8 +24,12 @@ jobs:
         run: node sync-products.js
         env:
           SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
+          # Providing both common names ensures the script finds the credentials
           SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Commit and push if changed
@@ -33,6 +37,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
-          # Adding [skip ci] prevents the automated update from triggering a new build
+          # [skip ci] prevents the sync from triggering another GitHub Action run
           git commit -m "Automated Shopify Sync [skip ci]" || exit 0
           git push
