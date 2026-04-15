@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from "./components/theme-provider"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
           <Footer />
           <ChatBot />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
